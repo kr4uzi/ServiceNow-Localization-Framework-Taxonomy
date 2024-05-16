@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_424426_lfp_ctax.ContentProcessor</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ContentProcessor</name>
+        <script><![CDATA[/* global global */
+/* global Class, GlideRecord, Set */
+/* eslint no-undef: "error" */
+var ContentProcessor = Class.create();
+ContentProcessor.prototype = Object.extendsObject(global.LFArtifactProcessorSNC, {
+    category: 'localization_framework', // DO NOT REMOVE THIS LINE!
+
+    /**********
+     * Extracts the translatable content for the artifact record
+     * 
+     * @param params.tableName The table name of the artifact record
+     * @param params.sysId The sys_id of the artifact record 
+     * @param params.language Language into which the artifact has to be translated (Target language)
+     * @return LFDocumentContent object
+     **********/
+    getTranslatableContent: function(params) {
+		/**********
+         * Use LFDocumentContentBuilder to build the LFDocumentContent object
+         * Use the build() to return the LFDocumentContent object
+         **********/
+		const builder = new global.LFDocumentContentBuilder('v1', params.language, params.sysId, params.tableName, params);
+		if (params.tableName == 'taxonomy') {
+			this.processTaxonomy(params.sysId, builder);
+		}
+		
+		return builder.build();
+    },
+	
+	processTaxonomy: function(taxonomySysID, builder) {
+		const taxonomyGr = new GlideRecord('taxonomy');
+		taxonomyGr.query('sys_id', taxonomySysID);
+		taxonomyGr.setLimit(1);
+		taxonomyGr.query();
+		if (taxonomyGr.next()) {
+			builder.processTranslatableFieldsForSingleRecord(taxonomyGr, 'Taxonomy');
+			const topicGr = new GlideRecord('topic');
+			topicGr.addQuery('taxonomy', taxonomyGr.sys_id);
+			topicGr.addQuery('active', true);
+			topicGr.orderBy('order');
+			topicGr.query();
+			while (topicGr.next()) {
+				builder.processTranslatableFieldsForSingleRecord(topicGr, 'Topic', ['topic_path']);
+			}
+		}
+	},
+
+    /**********
+     * Uncomment the saveTranslatedContent function to override the default behavior of saving translations
+     * 
+     * @param documentContent LFDocumentContent object
+     * @return
+     **********/
+    /**********
+        saveTranslatedContent: function(documentContent) {},
+    **********/
+
+    type: 'ContentProcessor'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-02-06 22:17:11</sys_created_on>
+        <sys_id>bdb76500939882101f07f5f08bba104a</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>ContentProcessor</sys_name>
+        <sys_package display_value="Localization Framework+ Content Taxonomy" source="x_424426_lfp_ctax">01d6e500939882101f07f5f08bba101a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Localization Framework+ Content Taxonomy">01d6e500939882101f07f5f08bba101a</sys_scope>
+        <sys_update_name>sys_script_include_bdb76500939882101f07f5f08bba104a</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-05-16 12:24:49</sys_updated_on>
+    </sys_script_include>
+</record_update>

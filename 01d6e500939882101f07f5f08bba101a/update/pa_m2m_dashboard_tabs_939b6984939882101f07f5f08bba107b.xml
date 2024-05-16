@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="pa_m2m_dashboard_tabs">
+    <pa_m2m_dashboard_tabs action="INSERT_OR_UPDATE">
+        <dashboard display_value="Localization Insights">6c7634c273231010395108b24ff6a7f6</dashboard>
+        <home>false</home>
+        <homepage/>
+        <order>200</order>
+        <sys_class_name>pa_m2m_dashboard_tabs</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-02-06 22:33:33</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>939b6984939882101f07f5f08bba107b</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>6c7634c273231010395108b24ff6a7f6</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Localization Framework+ Content Taxonomy" source="x_424426_lfp_ctax">01d6e500939882101f07f5f08bba101a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Localization Framework+ Content Taxonomy">01d6e500939882101f07f5f08bba101a</sys_scope>
+        <sys_update_name>pa_m2m_dashboard_tabs_939b6984939882101f07f5f08bba107b</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-05-16 12:50:49</sys_updated_on>
+        <tab display_value="Taxonomy">1b9b6984939882101f07f5f08bba1078</tab>
+    </pa_m2m_dashboard_tabs>
+</record_update>

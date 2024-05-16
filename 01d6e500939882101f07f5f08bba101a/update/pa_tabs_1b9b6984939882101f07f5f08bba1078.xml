@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="pa_tabs">
+    <pa_tabs action="INSERT_OR_UPDATE">
+        <canvas_page display_value="PA LF+ Taxonomy - Content Taxonomies">539b6984939882101f07f5f08bba1076</canvas_page>
+        <name>Taxonomy</name>
+        <page display_value="Taxonomy">d39b6984939882101f07f5f08bba1075</page>
+        <sys_class_name>pa_tabs</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-02-06 22:33:33</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>1b9b6984939882101f07f5f08bba1078</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>Taxonomy</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Localization Framework+ Content Taxonomy" source="x_424426_lfp_ctax">01d6e500939882101f07f5f08bba101a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Localization Framework+ Content Taxonomy">01d6e500939882101f07f5f08bba101a</sys_scope>
+        <sys_update_name>pa_tabs_1b9b6984939882101f07f5f08bba1078</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-05-16 12:30:52</sys_updated_on>
+    </pa_tabs>
+</record_update>
