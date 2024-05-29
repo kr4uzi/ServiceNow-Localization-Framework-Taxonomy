@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_scope_privilege">
+    <sys_scope_privilege action="INSERT_OR_UPDATE">
+        <operation>execute</operation>
+        <source_scope display_value="Localization Framework+ Content Taxonomy">01d6e500939882101f07f5f08bba101a</source_scope>
+        <status>allowed</status>
+        <sys_class_name>sys_scope_privilege</sys_class_name>
+        <sys_created_by>markus.kraus</sys_created_by>
+        <sys_created_on>2024-05-29 19:51:52</sys_created_on>
+        <sys_id>fc424f18936a02101f07f5f08bba106a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Glide API: properties</sys_name>
+        <sys_package display_value="Localization Framework+ Content Taxonomy" source="x_424426_lfp_ctax">01d6e500939882101f07f5f08bba101a</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Localization Framework+ Content Taxonomy">01d6e500939882101f07f5f08bba101a</sys_scope>
+        <sys_update_name>sys_scope_privilege_fc424f18936a02101f07f5f08bba106a</sys_update_name>
+        <sys_updated_by>markus.kraus</sys_updated_by>
+        <sys_updated_on>2024-05-29 19:51:52</sys_updated_on>
+        <target_name>Glide API: properties</target_name>
+        <target_scope display_value="Global">global</target_scope>
+        <target_type>scriptable</target_type>
+    </sys_scope_privilege>
+</record_update>
