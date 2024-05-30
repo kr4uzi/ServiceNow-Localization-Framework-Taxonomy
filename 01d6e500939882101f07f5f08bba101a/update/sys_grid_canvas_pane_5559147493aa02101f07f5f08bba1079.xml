@@ -2,19 +2,19 @@
     <sys_grid_canvas_pane action="INSERT_OR_UPDATE">
         <grid_canvas display_value="PA LF+ Taxonomy - Content Taxonomies">539b6984939882101f07f5f08bba1076</grid_canvas>
         <height>3</height>
-        <portal_widget display_value="Created 2024-05-16 14:35:53">2fc16e40939602101f07f5f08bba102e</portal_widget>
-        <posx>0</posx>
+        <portal_widget display_value="Created 2024-05-30 22:50:46">0559147493aa02101f07f5f08bba1076</portal_widget>
+        <posx>6</posx>
         <posy>3</posy>
         <sys_class_name>sys_grid_canvas_pane</sys_class_name>
         <sys_created_by>markus.kraus</sys_created_by>
-        <sys_created_on>2024-05-16 12:35:53</sys_created_on>
-        <sys_id>6bc16e40939602101f07f5f08bba1030</sys_id>
-        <sys_mod_count>32</sys_mod_count>
+        <sys_created_on>2024-05-30 20:50:46</sys_created_on>
+        <sys_id>5559147493aa02101f07f5f08bba1079</sys_id>
+        <sys_mod_count>21</sys_mod_count>
         <sys_name>539b6984939882101f07f5f08bba1076</sys_name>
         <sys_package display_value="Localization Framework+ Content Taxonomy" source="x_424426_lfp_ctax">01d6e500939882101f07f5f08bba101a</sys_package>
         <sys_policy/>
         <sys_scope display_value="Localization Framework+ Content Taxonomy">01d6e500939882101f07f5f08bba101a</sys_scope>
-        <sys_update_name>sys_grid_canvas_pane_6bc16e40939602101f07f5f08bba1030</sys_update_name>
+        <sys_update_name>sys_grid_canvas_pane_5559147493aa02101f07f5f08bba1079</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
         <sys_updated_on>2024-05-30 20:59:28</sys_updated_on>
         <width>2</width>

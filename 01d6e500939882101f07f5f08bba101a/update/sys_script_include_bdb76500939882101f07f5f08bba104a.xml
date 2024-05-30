@@ -7,7 +7,7 @@
         <client_callable>false</client_callable>
         <description/>
         <name>ContentProcessor</name>
-        <script><![CDATA[/* global global */
+        <script><![CDATA[/* global global, gs */
 /* global Class, GlideRecord, Set */
 /* eslint no-undef: "error" */
 var ContentProcessor = Class.create();
@@ -16,30 +16,42 @@ ContentProcessor.prototype = Object.extendsObject(global.LFArtifactProcessorSNC,
 		const builder = new global.LFDocumentContentBuilder('v1', params.language, params.sysId, params.tableName, params);
 		if (params.tableName == 'taxonomy') {
 			this.processTaxonomy(params.sysId, builder);
+		} else if (params.tableName == 'topic') {
+			this.processTopic(params.sysId, builder);
+		} else if (params.tableName == 'sn_ex_sp_quick_link') {
+			this.processQuickLink(params.sysId, builder);
 		}
 		
 		return builder.build();
     },
 	
 	processQuickLink: function (quickLinkSysID, builder) {
+		const quickLinkMandatoryTitle = gs.getProperty('x_424426_lfp_ctax.quick_link.mandatory.title', 'true') == 'true';
 		const quickLinkGr = new GlideRecord('sn_ex_sp_quick_link');
 		quickLinkGr.addQuery('sys_id', quickLinkSysID);
 		quickLinkGr.setLimit(1);
 		quickLinkGr.query();
 		if (quickLinkGr.next()) {
 			if (quickLinkGr.override_title) {
+				// if a override title is set, the default translatable field mechanism will show the field
 				builder.processTranslatableFieldsForSingleRecord(quickLinkGr, 'Quick Link');
-			} else {
+			} else if (quickLinkMandatoryTitle) {
+				// we treat no override as an missing translation
+				const fieldParameters = {
+					'sysId': quickLinkGr.getUniqueValue(),
+					'name': 'override_title',
+					'type': 'translated_text',
+					'table': quickLinkGr.getTableName()
+				};
+
+				const translatedTitle = builder._getTranslatedValueFromStandardTables(undefined, fieldParameters);
 				builder.processElement(
 					global.LFDocumentContentHelper.createElement('Quick Link', 'Title')
-					.addField(global.LFDocumentContentHelper.createField(quickLinkGr.name.toString(), '')
-						.setAdditionalParameters({
-							'sysId': quickLinkGr.getUniqueValue(),
-							'name': 'override_title',
-							'type': 'translated_text',
-							'table': quickLinkGr.getTableName()
-						})
-					)
+					.addField(
+						global.LFDocumentContentHelper.createField(quickLinkGr.name.toString(), translatedTitle)
+						.setAdditionalParameters(translatedTitle)
+						.setTextType(global.LFDocumentContentHelper.PLAIN_TEXT_TYPE)
+					).setInternal(true) // required for 'LFReadSaveScriptUtils::saveTranslationsInStandardTables'
 				);
 			}
 		}
@@ -55,7 +67,7 @@ ContentProcessor.prototype = Object.extendsObject(global.LFArtifactProcessorSNC,
 		}
 	},
 	
-	processTaxonomy2: function(taxonomySysID, builder) {
+	processTaxonomy: function(taxonomySysID, builder) {
 		const taxonomyGr = new GlideRecord('taxonomy');
 		taxonomyGr.query('sys_id', taxonomySysID);
 		taxonomyGr.setLimit(1);
@@ -65,9 +77,7 @@ ContentProcessor.prototype = Object.extendsObject(global.LFArtifactProcessorSNC,
 		}
 	},
 	
-	processTaxonomy: function(taxonomySysID, builder) {
-		const quickLinkMandatoryTitle = gs.getProperty('x_424426_lfp_ctax.quick_link.mandatory.title', 'true') == 'true';
-		
+	processTaxonomyOld: function(taxonomySysID, builder) {		
 		const taxonomyGr = new GlideRecord('taxonomy');
 		taxonomyGr.query('sys_id', taxonomySysID);
 		taxonomyGr.setLimit(1);
@@ -82,38 +92,15 @@ ContentProcessor.prototype = Object.extendsObject(global.LFArtifactProcessorSNC,
 			while (topicGr.next()) {
 				builder.processTranslatableFieldsForSingleRecord(topicGr, 'Topic', ['topic_path']);
 				
-				const contentTypeQuickLinkSysID = '07f4b6bfe75430104cda66ef11e8a9a9';
-				const contentGr = new GlideRecord('m2m_connected_content');
-				contentGr.addQuery('topic', topicGr.sys_id);
-				contentGr.addQuery('content_type', contentTypeQuickLinkSysID);
-				contentGr.addQuery('quick_link.active', true);
-				contentGr.query();
-				while (contentGr.next()) {
-					const quickLinkGr = contentGr.quick_link.getRefRecord();
-					if (quickLinkGr.override_title) {
-						// if a override title is set, the default translatable field mechanism will show the field
-						builder.processTranslatableFieldsForSingleRecord(quickLinkGr, 'Quick Link');
-					} else if (quickLinkMandatoryTitle) {
-
-						// we treat no override as an missing translation
-						const fieldParameters = {
-							'sysId': quickLinkGr.getUniqueValue(),
-							'name': 'override_title',
-							'type': 'translated_text',
-							'table': quickLinkGr.getTableName()
-						};
-
-						const translatedTitle = builder._getTranslatedValueFromStandardTables(undefined, fieldParameters);
-						builder.processElement(
-							global.LFDocumentContentHelper.createElement('Quick Link', 'Title')
-							.addField(
-								global.LFDocumentContentHelper.createField(quickLinkGr.name.toString(), translatedTitle)
-								.setAdditionalParameters(translatedTitle)
-								.setTextType(global.LFDocumentContentHelper.PLAIN_TEXT_TYPE)
-							).setInternal(true) // required for 'LFReadSaveScriptUtils::saveTranslationsInStandardTables'
-						);
-					}
-				}
+// 				const contentTypeQuickLinkSysID = '07f4b6bfe75430104cda66ef11e8a9a9';
+// 				const contentGr = new GlideRecord('m2m_connected_content');
+// 				contentGr.addQuery('topic', topicGr.sys_id);
+// 				contentGr.addQuery('content_type', contentTypeQuickLinkSysID);
+// 				contentGr.addQuery('quick_link.active', true);
+// 				contentGr.query();
+// 				while (contentGr.next()) {
+// 					this.processQuickLink(contentGr.getValue('quick_link'));
+// 				}
 			}
 		}
 	},
@@ -125,13 +112,13 @@ ContentProcessor.prototype = Object.extendsObject(global.LFArtifactProcessorSNC,
         <sys_created_by>markus.kraus</sys_created_by>
         <sys_created_on>2024-02-06 22:17:11</sys_created_on>
         <sys_id>bdb76500939882101f07f5f08bba104a</sys_id>
-        <sys_mod_count>24</sys_mod_count>
+        <sys_mod_count>26</sys_mod_count>
         <sys_name>ContentProcessor</sys_name>
         <sys_package display_value="Localization Framework+ Content Taxonomy" source="x_424426_lfp_ctax">01d6e500939882101f07f5f08bba101a</sys_package>
         <sys_policy/>
         <sys_scope display_value="Localization Framework+ Content Taxonomy">01d6e500939882101f07f5f08bba101a</sys_scope>
         <sys_update_name>sys_script_include_bdb76500939882101f07f5f08bba104a</sys_update_name>
         <sys_updated_by>markus.kraus</sys_updated_by>
-        <sys_updated_on>2024-05-29 19:53:24</sys_updated_on>
+        <sys_updated_on>2024-05-30 17:03:13</sys_updated_on>
     </sys_script_include>
 </record_update>
